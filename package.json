@@ -1,0 +1,28 @@
+{
+  "name": "prevue",
+  "version": "1.0.0",
+  "description": "A movie prevue website",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haochengz/prevue.git"
+  },
+  "keywords": [
+    "movie",
+    "trailer",
+    "prevue"
+  ],
+  "author": "hczhao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haochengz/prevue/issues"
+  },
+  "homepage": "https://github.com/haochengz/prevue#readme",
+  "dependencies": {
+    "koa": "^2.5.1"
+  }
+}
