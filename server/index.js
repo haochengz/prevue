@@ -1,10 +1,16 @@
 
 const Koa = require('koa')
-const app = new Koa()
+const views = require('koa-views')
+const { resolve } = require('path')
 
-app.use((ctx, next) => {
-  ctx.type = 'html'
-  ctx.body = '<h1>电影预告片</h1>'
+const app = new Koa()
+app.use(views(resolve(__dirname, './templates'), { extension: 'pug' }))
+
+app.use(async (ctx, next) => {
+  await ctx.render('index', {
+    you: 'Luke',
+    me: 'Superman'
+  })
 })
 
 app.listen(3000, () => {
