@@ -1,10 +1,16 @@
 
 const mongoose = require('mongoose')
 const secret = require('../../secret')
+const glob = require('glob')
+const { resolve } = require('path')
 mongoose.Promise = global.Promise
 
 const db = secret.db
 const dbConn = `mongodb://${db.user}:${db.pwd}@${db.host}:${db.port}/${db.name}`
+
+exports.initSchema = () => {
+  glob.sync(resolve(__dirname, './schema/', '**/*.js')).forEach(require)
+}
 
 exports.connect = () => {
   let maxConnectAttemps = 10

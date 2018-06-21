@@ -2,11 +2,14 @@
 const Koa = require('koa')
 const views = require('koa-views')
 const { resolve } = require('path')
-const { connect } = require('./db/init')
+const { connect, initSchema } = require('./db/init')
+const mongoose = require('mongoose')
 
 ;(async () => {
   const status = await connect()
-  console.log(status)
+  initSchema()
+
+  require('./tasks/fetch-detail')
 })()
 
 const app = new Koa()

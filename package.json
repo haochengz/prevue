@@ -24,7 +24,9 @@
   "homepage": "https://github.com/haochengz/prevue#readme",
   "dependencies": {
     "ali-oss": "^5.3.0",
+    "bcrypt": "^2.0.1",
     "co": "^4.6.0",
+    "glob": "^7.1.2",
     "koa": "^2.5.1",
     "koa-views": "^6.1.4",
     "mongoose": "^5.1.6",

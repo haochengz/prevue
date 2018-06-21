@@ -1,6 +1,8 @@
 
 const cp = require('child_process')
 const { resolve } = require('path')
+const mongoose = require('mongoose')
+const Movie = mongoose.model('Movie')
 
 ;(() => {
   const scriptPath = resolve(__dirname, '../crawler/trailer-list.js')
@@ -22,6 +24,12 @@ const { resolve } = require('path')
 
   child.on('message', data => {
     let result = data.result
-    console.log(result)
+    result.forEach(async movie => {
+      exists = await Movie.findOne({doubanId: movie.doubanId})
+      if (!exists) {
+        movie = new Movie(movie)
+        await movie.save()
+      }
+    })
   })
 })()
