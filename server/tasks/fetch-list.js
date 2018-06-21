@@ -9,7 +9,7 @@ const Movie = mongoose.model('Movie')
   const child = cp.fork(scriptPath, [])
   let invoked = false
 
-  child.on('err', err => {
+  child.on('error', err => {
     if (invoked) return
     invoked = true
     console.log(err)

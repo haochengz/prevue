@@ -8,8 +8,7 @@ const mongoose = require('mongoose')
 ;(async () => {
   const status = await connect()
   initSchema()
-
-  require('./tasks/fetch-detail')
+  require('./tasks/fetch-list')
 })()
 
 const app = new Koa()
