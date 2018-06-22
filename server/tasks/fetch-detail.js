@@ -4,7 +4,7 @@ const Movie = mongoose.model('Movie')
 const Category = mongoose.model('Category')
 
 const detailApiPrefix = 'http://api.douban.com/v2/movie/subject/'
-const AttrApiPrefix = 'http://api.douban.com/v2/movie/subject/'
+const AttrApiPrefix = 'http://api.douban.com/v2/movie/'
 
 async function sleep(time) {
   return new Promise((resolve, reject) => {
@@ -20,13 +20,15 @@ async function fetch(item, prefix) {
     data = await rp(url)
   } catch(error) {
     console.log('Network error when downloading: ' + url)
+    return {}
   }
 
-  data = await verify(data)
+  return verify(data)
 }
 
 async function verify(data) {
   if (!data) {
+    console.log('Empty data retieve')
     return {}
   } else {
     if (typeof data === 'string') {
@@ -66,7 +68,10 @@ async function getMoviesUncomplete() {
       { summary: { $exists: false}},
       { summary: null },
       { title: '' },
-      { summary: '' }
+      { summary: '' },
+      { pubDate: { $exists: false}},
+      { pubDate: null},
+      { pubDate: [] }
     ]
   })
   return movies
@@ -76,7 +81,9 @@ function extractDetailsTo(data, movie) {
   if (data) {
     movie.title = data.title || ''
     movie.summary = data.summary || ''
-    movie.rate = data.rating.average || 0
+    if (data.rating) {
+      movie.rate = data.rating.average || 0
+    }
     movie.year = data.year
     movie.rawTitle = data.originaltitle || ''
     movie.types = data.genres || []
@@ -84,16 +91,18 @@ function extractDetailsTo(data, movie) {
 }
 
 function buildTags(data, movie) {
-  if (data.tags && !movie.tags) {
+  if (data.tags) {
     movie.tags = []
     data.tags.forEach(item => {
       movie.tags.push(item.name)
     })
+  } else {
+    console.log('Build tags fails')
   }
 }
 
-function buildPubdate() {
-  date.map(item => {
+function buildPubdate(dates) {
+  dates.map(item => {
     if (item && item.split('(').length > 0) {
       let parts = item.split('(')
       let date = parts[0]
@@ -110,7 +119,8 @@ function buildPubdate() {
 }
 
 async function buildTypes(movie) {
-  movie.types.forEach(async item => {
+  for (let i = 0; i < movie.types.length; i++) {
+    let item = movie.types[i]
     let cat = await Category.findOne({
       name: item
     })
@@ -126,24 +136,28 @@ async function buildTypes(movie) {
     }
     await cat.save()
     if (!movie.category) {
-      movie.category.push(cat._id)
+      movie.category = []
+    }
+    if (movie.category.length === 0) {
+      await movie.category.push(cat._id)
     } else {
       if (movie.category.indexOf(cat._id) === -1) {
-        movie.category.push(cat._id)
+        await movie.category.push(cat._id)
       }
     }
-  })
+  }
+  console.log('end build types')
 }
 
 async function extractAttrsTo(data, movie) {
   if (data) {
     buildTags(data, movie)
     // release date:
-    let date = data.attr.pubDate || []
-    movie.pubDate = buildPubdate(data)
+    let dates = data.attrs.pubdate || []
+    movie.pubDate = buildPubdate(dates)
     // movie types:
     if (!movie.types) {
-      movie.types = data.attr.movie_type
+      movie.types = data.attrs.movie_type
     }
     await buildTypes(movie)
   }
@@ -153,14 +167,15 @@ async function extractAttrsTo(data, movie) {
   let movies = await getMoviesUncomplete()
   movies.forEach(async movie => {
     let data = await fetchDetail(movie)
-    if (data) {
+    if (Object.keys(data).length !== 0) {
       extractDetailsTo(data, movie)
-      data = await fetchAttr(movie)
-      await extractAttrsTo(data, movie)
-      await movie.save()
-      await sleep(2000)
-    } else {
-      console.log('Empty data')
     }
+    data = await fetchAttr(movie)
+    if (Object.keys(data).length !== 0) {
+      await extractAttrsTo(data, movie)
+    }
+    console.log('End and save')
+    await movie.save()
+    await sleep(2000)
   })
 })()
