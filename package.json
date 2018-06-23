@@ -5,7 +5,8 @@
   "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "build": "rm -rf dist && parcel build src/index.html --no-cache -d dist --public-url /"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,13 @@
     "koa-views": "^6.1.4",
     "mongoose": "^5.1.6",
     "nanoid": "^1.0.3",
+    "parcel": "^1.9.2",
     "pug": "^2.0.3",
     "puppeteer": "^1.5.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^8.6.3",
+    "cssnext": "^1.8.4",
+    "node-sass": "^4.9.0"
   }
 }
