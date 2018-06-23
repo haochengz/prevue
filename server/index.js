@@ -8,7 +8,8 @@ const { connect, initSchema, initAdmin } = require('./db/init')
 
 const MIDDLEWARES = [
   "database",
-  "routers"
+  "routers",
+  "parcel"
 ]
 
 const loadMiddlewares = app => {
