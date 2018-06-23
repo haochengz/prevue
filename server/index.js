@@ -2,30 +2,31 @@
 const Koa = require('koa')
 const views = require('koa-views')
 const { resolve } = require('path')
-const { connect, initSchema, initAdmin } = require('./db/init')
 const mongoose = require('mongoose')
+const R = require('ramda')
+const { connect, initSchema, initAdmin } = require('./db/init')
 
-initSchema()
+const MIDDLEWARES = [
+  "database",
+  "routers"
+]
+
+const loadMiddlewares = app => {
+  R.map(
+    R.compose(
+      middleware => middleware(app),
+      require,
+      name => resolve(__dirname, `./middlewares/${name}`)
+    )
+  )(MIDDLEWARES)
+}
 
 ;(async () => {
-  const status = await connect()
-  initAdmin()
-})()
-
-const app = new Koa()
-const router = require('./routes/movies')
-app.use(router.routes())
-app.use(router.allowedMethods())
-
-app.use(views(resolve(__dirname, './templates'), { extension: 'pug' }))
-
-app.use(async (ctx, next) => {
-  await ctx.render('index', {
-    you: 'Luke',
-    me: 'Superman'
+  const app = new Koa()
+  await connect()
+  await initSchema()
+  loadMiddlewares(app)
+  app.listen(3000, () => {
+    console.log('Listening')
   })
-})
-
-app.listen(3000, () => {
-  console.log('Listening')
-})
+})()
