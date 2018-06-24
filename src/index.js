@@ -12,4 +12,6 @@ const rootElement = document.getElementById('app')
 render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>, rootElement)
+  </BrowserRouter>,
+  rootElement
+)

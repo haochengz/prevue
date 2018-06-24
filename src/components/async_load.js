@@ -12,7 +12,7 @@ export default (loadComponent, placeholder = 'loading... ...') => {
       }
     }
     componentWillUnmount() {
-      this.unmount = ture
+      this.unmount = true
     }
     async componentDidMount() {
       const { default: Child } = await loadComponent()
