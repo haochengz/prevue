@@ -28,7 +28,10 @@ function upload(url, extension) {
     $or: [
       { videoKey: { $exists: false }},
       { videoKey: null },
-      { videoKey: '' }
+      { videoKey: '' },
+      { posterKey: { $exists: false }},
+      { posterKey: null },
+      { posterKey: '' }
     ]
   })
 

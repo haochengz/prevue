@@ -6,10 +6,10 @@ const { getAllMovies, getMovie } = require('../controller/movie')
 router.get('/movies', async (ctx, next) => {
   const movies = await getAllMovies()
   ctx.body = {
-    count: movies.length,
-    movies,
-    status: 0,
-    msg: 'success'
+    success: true,
+    data: movies,
+    code: 0,
+    err: ''
   }
 })
 
@@ -23,4 +23,19 @@ router.get('/movies/:mid', async (ctx, next) => {
   }
 })
 
+router.get('/fetch/list', (ctx, next) => {
+  require('../tasks/fetch-list')
+})
+
+router.get('/fetch/detail', (ctx, next) => {
+  require('../tasks/fetch-detail')
+})
+
+router.get('/fetch/trailer', (ctx, next) => {
+  require('../tasks/fetch-trailer')
+})
+
+router.get('/fetch/oss', (ctx, next) => {
+  require('../tasks/oss')
+})
 module.exports = router

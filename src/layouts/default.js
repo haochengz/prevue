@@ -7,54 +7,54 @@ import {
 import { Link } from 'react-router-dom'
 import navRoutes from '../nav'
 
-const getMenuContent = ({ path, name }) => (
-  <a href={path ? path : '/'} style={{color: '#fff2e8'}}>
+const getMenuContent = ({ path = '/', name }) => (
+  <a href={path} style={{color: '#fff2e8'}}>
     {name}
   </a>
 )
 
 export default class LayoutDefault extends Component {
-  constructor() {
+  constructor (props) {
     super(props)
     this.state = {
       loading: false,
-      tip: 'Wait for it... ...'
+      tip: 'Wait for it'
     }
-  },
+  }
 
-  componentDidMount() {
+  componentDidMount () {
     window.__LOADING__ = this.toggleLoading
   }
 
-  componentWillUnmount() {
+  componentWillUnMount () {
     window.__LOADING__ = null
   }
 
   matchRouteName = this.props.match
     ? navRoutes.find(e => e.name === this.props.match.params.type)
       ? navRoutes.find(e => e.name === this.props.match.params.type).name
-      : 'ALL'
+      : '全部'
     : navRoutes[0].name
 
-  toggleLoading = (state = false, tip = 'Wait for it') => {
+  toggleLoading = (status = false, tip = 'One more secend') => {
     this.setState({
       tip,
       loading: status
     })
   }
 
-
-  render() {
+  render () {
     const { children } = this.props
     const { loading, tip } = this.state
+
     return (
-      <div className='flex-column' style={{ width: '100%', height: '100%'}}>
+      <div className='flex-column' style={{ width: '100%', height: '100%' }}>
         <Menu
-          modo='horizontal'
-          style={{ fontSize: 13.5, backgroudColor: '#000'}}
+          style={{ fontSize: 13.5, backgroundColor: '#000' }}
+          mode='horizontal'
           defaultSelectedKeys={[this.matchRouteName]}
         >
-          </Menu.Item
+          <Menu.Item
             style={{
               marginLeft: 24,
               marginRight: 30,
@@ -64,12 +64,12 @@ export default class LayoutDefault extends Component {
               float: 'left'
             }}
           >
-            <a href={'/'} className='hover-scale logo-text' style={{color: '#fff2e8'}}>
-              The Trailers
-            </a>
+            <a href={'/'} className='hover-scale logo-text' style={{
+              color: '#fff2e8'
+            }}>Trailers</a>
           </Menu.Item>
           {
-            navRoutes.map((e, i), => (
+            navRoutes.map((e, i) => (
               <Menu.Item key={e.name}>
                 {
                   getMenuContent({...e})
@@ -79,7 +79,7 @@ export default class LayoutDefault extends Component {
           }
         </Menu>
         <Spin
-          spining={loading}
+          spinning={loading}
           tip={tip}
           wrapperClassName='content-spin full'
         >

@@ -1,5 +1,5 @@
 
-exports default [
+export default [
   {
     name: 'ALL',
     path: '/',

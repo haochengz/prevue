@@ -4,7 +4,7 @@ const Movie = mongoose.model('Movie')
 
 const getAllMovies = async () => {
   let movies = await Movie.find({}).sort({
-    'meta.createAt': -1
+    'meta.createdAt': -1
   })
   return movies
 }

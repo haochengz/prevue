@@ -26,6 +26,7 @@
   "dependencies": {
     "ali-oss": "^5.3.0",
     "antd": "^3.0.0",
+    "axios": "^0.18.0",
     "bcrypt": "^2.0.1",
     "co": "^4.6.0",
     "glob": "^7.1.2",
@@ -33,6 +34,7 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.4",
+    "moment": "^2.22.2",
     "mongoose": "^5.1.6",
     "nanoid": "^1.0.3",
     "parcel": "^1.9.2",
