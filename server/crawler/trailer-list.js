@@ -8,15 +8,21 @@ const sleep = time => new Promise(resolve => {
   setTimeout(resolve, time)
 })
 
-const getBrowser() => {
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox'],
-    dumpio: false
-  })
+const getBrowser = async () => {
+  let browser
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox'],
+      dumpio: false
+    })
+  } catch(error) {
+    console.err('Cannot get puppeteer browser')
+    console.err(error)
+  }
   return browser
 }
 
-const unfoldListPage = (page) => {
+const unfoldListPage = async page => {
   await page.goto(url, {
     waitUntil: 'networkidle2'
   })
@@ -30,7 +36,7 @@ const unfoldListPage = (page) => {
   return page
 }
 
-const extractItems = (page) => {
+const extractItems = async page => {
   const result = await page.evaluate(() => {
     var $ = window.$
     var items = $('.list-wp a')
@@ -56,12 +62,13 @@ const extractItems = (page) => {
 }
 
 ;(async () => {
-  const browser = getBrowser()
+  const browser = await getBrowser()
 
   // Open the movie list page and keep press more button until the page
   // contains 40 movies
-  const page = unfoldListPage(await browser.newPage())
-  const result = extractItems(page)
+  const emptyPage = await browser.newPage()
+  const page = await unfoldListPage(emptyPage)
+  const result = await extractItems(page)
   browser.close()
 
   // this script is supposed to run as a sub-process created by master process
