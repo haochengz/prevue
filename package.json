@@ -43,9 +43,7 @@
     "ramda": "^0.25.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
-    "react-router-dom": "^4.2.2"
-  },
-  "devDependencies": {
+    "react-router-dom": "^4.2.2",
     "antd": "^3.0.0",
     "autoprefixer": "^8.6.3",
     "babel-core": "^6.26.3",
@@ -62,5 +60,5 @@
     "node-sass": "^4.9.0",
     "nodemon": "^1.17.5",
     "parcel-bundler": "^1.9.2"
-  }
+  },
 }
