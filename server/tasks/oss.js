@@ -1,7 +1,9 @@
 
-let secret = require('../../secret')
+let secret = null
 if (process.NODE_ENV === 'production') {
   secret = require('/root/var/secret')
+} else {
+  secret = require('../../secret')
 }
 const co = require('co')
 const nanoid = require('nanoid')
