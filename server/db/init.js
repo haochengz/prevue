@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
 let secret = null
-if (process.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   secret = require('/root/var/secret')
 } else {
   secret = require('../../secret')
