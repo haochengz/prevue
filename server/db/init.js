@@ -1,6 +1,9 @@
 
 const mongoose = require('mongoose')
 const secret = require('../../secret')
+if (NODE_ENV === 'production') {
+  secret = require('/root/var/secret')
+}
 const glob = require('glob')
 const { resolve } = require('path')
 mongoose.Promise = global.Promise

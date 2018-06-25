@@ -1,5 +1,8 @@
 
 const secret = require('../../secret')
+if (NODE_ENV === 'production') {
+  secret = require('/root/var/secret')
+}
 const co = require('co')
 const nanoid = require('nanoid')
 const request = require('request')
