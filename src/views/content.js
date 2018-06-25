@@ -105,7 +105,7 @@ export default class Content extends Component {
                       {it.rate} 分
                     </Badge>
                   ]}
-                  cover={<img onClick={() => this._showModal(it)} src={site + it.posterKey + '?x-oss-process=image/resize,m_fixed,h_400,w_270'} />}
+                  cover={<img onClick={() => this._showModal(it)} src={site + it.posterKey + '?x-oss-process=image/resize,m_fixed,h_400,w_270/rounded-corners,r_10/format,png'} />}
                 >
                   <Meta
                     style={{height: '202px', overflow: 'hidden'}}

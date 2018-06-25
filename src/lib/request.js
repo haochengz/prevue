@@ -12,7 +12,6 @@ const _request = (params = {}, fn = () => {}) => {
 
       if (code === 401) {
         window.location.href = '/'
-
         return
       }
 

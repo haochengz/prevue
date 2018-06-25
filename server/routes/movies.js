@@ -16,10 +16,13 @@ router.get('/movies', async (ctx, next) => {
 router.get('/movies/:mid', async (ctx, next) => {
   const movie = await getMovie(ctx.params.mid)
   ctx.body = {
-    count: 1,
-    movie,
-    status: 0,
-    msg: 'success'
+    success: true,
+    data: {
+      movie,
+      relativeMovies: []
+    },
+    code: 0,
+    err: ''
   }
 })
 
