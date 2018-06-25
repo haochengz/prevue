@@ -1,0 +1,25 @@
+
+apps:
+  - script: ./server/index.js
+    name: 'Prevue'
+    env:
+      COMMON_VARIABLE: true
+    env_production:
+      NODE_ENV: production
+deply:
+  production:
+    user: root
+    host:
+      - 47.106.125.144
+    port: 22
+    ref: orgin/master
+    repo:
+      git@github.com:haochengz/prevue.git
+    path:
+      /www/prevue/production
+    ssh_options: StrictHostKeyChecking=no
+    pre-deploy: git fetch --all
+    post-deploy: 'cnpm install && cnpm run build && pm2
+      startOrRestart deploy.yaml --env production'
+    env:
+      NODE_ENV: production

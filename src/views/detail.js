@@ -42,7 +42,6 @@ export default class Detail extends Component {
       const relativeMovies = res.relativeMovies
       const video = site + movie.videoKey
       const pic = site + movie.coverKey
-      console.log(movie)
 
       this.setState({
         movie,
