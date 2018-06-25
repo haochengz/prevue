@@ -19,6 +19,6 @@ deploy:
       /www/prevue/production
     ssh_options: StrictHostKeyChecking=no
     pre-deploy: git fetch --all
-    post-deploy: 'cnpm install && cnpm run build && pm2 startOrRestart deploy.yaml --env production'
+    post-deploy: 'cnpm install && pm2 startOrRestart deploy.yaml --env production'
     env:
       NODE_ENV: production
