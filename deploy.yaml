@@ -12,7 +12,7 @@ deploy:
     host:
       - 47.106.125.144
     port: 22
-    ref: orgin/master
+    ref: origin/master
     repo:
       git@github.com:haochengz/prevue.git
     path:
