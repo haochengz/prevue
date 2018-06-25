@@ -11,8 +11,7 @@ process.on('message', async movies => {
   console.log('Crawling started')
   const browser = await puppeteer.launch({
     args: ['--no-sandbox'],
-    dumpio: false,
-    headless: false
+    dumpio: false
   })
 
   for(let i = 0; i < movies.length; i++) {

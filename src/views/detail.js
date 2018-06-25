@@ -36,7 +36,7 @@ export default class Detail extends Component {
   _getMovieDetail = () => {
     request({
       method: 'get',
-      url: `/movies/${this.state._id}`
+      url: `/api/movies/${this.state._id}`
     }).then(res => {
       const movie = res.movie
       const relativeMovies = res.relativeMovies

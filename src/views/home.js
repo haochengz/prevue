@@ -32,7 +32,7 @@ export default class Home extends Component {
   _getAllMovies = () => {
     request(window.__LOADING__)({
       method: 'get',
-      url: `/movies?type=${this.state.type || ''}&year=${this.state.year || ''}`
+      url: `/api/movies?type=${this.state.type || ''}&year=${this.state.year || ''}`
     }).then(res => {
       this.setState({
         movies: res
