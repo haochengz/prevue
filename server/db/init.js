@@ -11,6 +11,7 @@ const { resolve } = require('path')
 mongoose.Promise = global.Promise
 
 const db = secret.db
+const admin = secret.admin
 const dbConn = `mongodb://${db.user}:${db.pwd}@${db.host}:${db.port}/${db.name}`
 
 exports.initSchema = () => {
@@ -19,18 +20,18 @@ exports.initSchema = () => {
 
 exports.initAdmin = async () => {
   const User = mongoose.model('User')
-  if (await User.findOne({ username: 'dev' })) return
+  if (await User.findOne({ username: admin.username })) return
   const admin = new User({
-    username: 'dev',
-    email: 'hczhao@gamil.com',
-    password: '123abc'
+    username: admin.username,
+    email: admin.email,
+    password: admin.password
   })
   await admin.save()
 }
 
 exports.connect = () => {
-  let maxConnectAttemps = 10
-  let connectAttemps = 0
+  let maxconnectAttempts = 10
+  let connectAttempts = 0
 
   return new Promise((resolve, reject) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -39,25 +40,24 @@ exports.connect = () => {
     mongoose.connect(dbConn)
 
     mongoose.connection.on('disconnection', () => {
-      connectAttemps++
-      console.log('DB was disconnected')
-      if (connectAttemps >= maxConnectAttemps) {
-        reject('Cannot reach db')
+      connectAttempts++
+      if (connectAttempts >= maxconnectAttempts) {
+        reject('REJ-FAIL: DB connect is reaching max attempts.')
       }
+      mongoose.connect(dbConn)
     })
 
     mongoose.connection.on('error', err => {
-      console.log('DB was disconnected because: ')
-      console.log(err)
-      connectAttemps++
-      if (connectAttemps >= maxConnectAttemps) {
-        reject('Cannot reach db')
+      connectAttempts++
+      if (connectAttempts >= maxconnectAttempts) {
+        reject('REJ-FAIL: DB connect is reaching max attempts.')
       }
+      mongoose.connect(dbConn)
     })
 
     mongoose.connection.once('open', () => {
-      connectAttemps = 0
-      resolve('DB was connected')
+      connectAttempts = 0
+      resolve('RES-OK: DB was connected')
     })
   })
 }
