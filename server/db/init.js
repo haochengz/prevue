@@ -31,7 +31,7 @@ exports.initAdmin = async () => {
 }
 
 exports.connect = () => {
-  let maxconnectAttempts = 10
+  let maxConnectAttempts = 10
   let connectAttempts = 0
 
   return new Promise((resolve, reject) => {
@@ -42,7 +42,7 @@ exports.connect = () => {
 
     mongoose.connection.on('disconnection', () => {
       connectAttempts++
-      if (connectAttempts >= maxconnectAttempts) {
+      if (connectAttempts >= maxConnectAttempts) {
         reject('REJ-FAIL: DB connect is reaching max attempts.')
       }
       mongoose.connect(dbConn)
@@ -50,7 +50,7 @@ exports.connect = () => {
 
     mongoose.connection.on('error', err => {
       connectAttempts++
-      if (connectAttempts >= maxconnectAttempts) {
+      if (connectAttempts >= maxConnectAttempts) {
         reject('REJ-FAIL: DB connect is reaching max attempts.')
       }
       mongoose.connect(dbConn)
