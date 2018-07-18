@@ -4,7 +4,7 @@ const views = require('koa-views')
 const { resolve } = require('path')
 const mongoose = require('mongoose')
 const R = require('ramda')
-const { connect, initSchema, initAdmin } = require('./db/init')
+// const { connect, initSchema, initAdmin } = require('./db/init')
 
 const MIDDLEWARES = [
   "database",
@@ -24,8 +24,6 @@ const loadMiddlewares = app => {
 
 ;(async () => {
   const app = new Koa()
-  await connect()
-  await initSchema()
   loadMiddlewares(app)
   app.listen(3000, () => {
     console.log('Listening')

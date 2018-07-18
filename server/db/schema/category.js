@@ -6,6 +6,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const categorySchema = new mongoose.Schema({
   name: {
     unique: true,
+    required: true,
     type: String
   },
   movies: [{

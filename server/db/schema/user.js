@@ -1,5 +1,4 @@
 
-
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const Mixed = mongoose.Schema.Types.Mixed
@@ -52,17 +51,19 @@ userSchema.pre('save', function(next) {
         bcrypt.hash(this.password, salt, (error, hash) => {
           if (!err) {
             this.password = hash
-            next()
+            return next()
           } else {
             console.log('Saving password failed')
-            next()
+            return
           }
         })
       } else {
         console.log('Generate salt failed')
-        next()
+        return
       }
     })
+  } else {
+    return
   }
 })
 
@@ -79,15 +80,12 @@ userSchema,methods = {
   comparePassword: (password, _password) => {
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, _password, (err, isMatch) => {
-        if (!err) {
-          resolve(isMatch)
-        } else {
-          reject(err)
-        }
+        if (!err) resolve(isMatch)
+        else reject(err)
       })
     })
   },
-  incLoginAttempts: (user) => {
+  incLoginAttempts: user => {
     return new Promise((resolve, reject) => {
       if (this.lockUntil && this.lockUntil < Date.now()) {
         this.update({
@@ -107,7 +105,7 @@ userSchema,methods = {
             loginAttempts: 1
           }
         }
-        if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !this.isLocked) {
+        if (this.loginAttempts > MAX_LOGIN_ATTEMPTS && !this.isLocked) {
           updates.$set = {
             lockUntil: Date.now() + LOCK_LOGIN_TIME
           }
