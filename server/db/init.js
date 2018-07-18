@@ -20,13 +20,14 @@ exports.initSchema = () => {
 
 exports.initAdmin = async () => {
   const User = mongoose.model('User')
+  console.log(admin)
   if (await User.findOne({ username: admin.username })) return
-  const admin = new User({
+  const administrator = new User({
     username: admin.username,
     email: admin.email,
     password: admin.password
   })
-  await admin.save()
+  await administrator.save()
 }
 
 exports.connect = () => {
