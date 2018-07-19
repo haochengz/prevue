@@ -1,18 +1,10 @@
 
-const R = require('ramda')
 const { resolve } = require('path')
-
-const ROUTES = [
-  'movies'
-]
+const { Route } = require('./../lib/router')
 
 module.exports = app => {
-  console.log('Initialization of routers')
-  R.map(
-    R.compose(
-      router => app.use(router.routes(), router.allowedMethods()),
-      require,
-      name => resolve(__dirname, `../routes/${name}`)
-    )
-  )(ROUTES)
+  const apiPath = resolve(__dirname, '../routes')
+  const route = new Route(app, apiPath)
+
+  route.init()
 }
