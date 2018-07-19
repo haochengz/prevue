@@ -12,6 +12,8 @@ process.on('message', async movies => {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox'],
     dumpio: false
+    // headless: false,
+    // sloMo: 250
   })
 
   for(let i = 0; i < movies.length; i++) {
