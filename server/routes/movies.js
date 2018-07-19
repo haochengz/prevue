@@ -1,9 +1,11 @@
 
 const Router = require('koa-router')
-const router = new Router()
+const router = new Router({
+  prefix: '/api/movies'
+})
 const { getAllMovies, getMovie } = require('../controller/movie')
 
-router.get('/api/movies', async (ctx, next) => {
+router.get('/', async (ctx, next) => {
   const movies = await getAllMovies()
   ctx.body = {
     success: true,
@@ -13,7 +15,7 @@ router.get('/api/movies', async (ctx, next) => {
   }
 })
 
-router.get('/api/movies/:mid', async (ctx, next) => {
+router.get('/:mid', async (ctx, next) => {
   const movie = await getMovie(ctx.params.mid)
   ctx.body = {
     success: true,
