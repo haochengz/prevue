@@ -6,11 +6,26 @@ const mongoose = require('mongoose')
 const R = require('ramda')
 // const { connect, initSchema, initAdmin } = require('./db/init')
 
-const MIDDLEWARES = [
-  "database",
-  "routers",
-  "parcel"
+const DEV_MIDDLEWARES = [
+  'parcel'
 ]
+const PROD_MIDDLEWARES = []
+const COMMON_MIDDLEWARES = [
+  'database',
+  'routers'
+]
+
+if (process.env.NODE_ENV === 'production') {
+  var MIDDLEWARES = [
+    ...PROD_MIDDLEWARES,
+    ...COMMON_MIDDLEWARES
+  ]
+} else {
+  var MIDDLEWARES = [
+    ...DEV_MIDDLEWARES,
+    ...COMMON_MIDDLEWARES
+  ]
+}
 
 const loadMiddlewares = app => {
   R.map(
