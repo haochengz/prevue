@@ -12,6 +12,7 @@ export default class Home extends Component {
     super(props)
 
     this.state = {
+      // TODO: loading from backend
       years: ['2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018'],
       type: this.props.match.params.type,
       year: this.props.match.params.year,

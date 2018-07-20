@@ -18,7 +18,7 @@ export default class LayoutDefault extends Component {
     super(props)
     this.state = {
       loading: false,
-      tip: 'Wait for it'
+      tip: 'Wait for loading please... ...'
     }
   }
 
